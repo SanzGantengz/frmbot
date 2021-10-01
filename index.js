@@ -1,4 +1,4 @@
-import makeWASocket from '@adiwajshing/baileys-md'
+import makeWASocket, { WASocket, AuthenticationState, DisconnectReason, AnyMessageContent, BufferJSON, initInMemoryKeyStore, delay } from '@adiwajshing/baileys-md'
 
 async function connectToWhatsApp () {
     const conn = makeWASocket({
