@@ -15,7 +15,7 @@ async function connectToWhatsApp () {
         console.log(JSON.stringify(m, undefined, 2))
 
         console.log('replying to', m.messages[0].key.remoteJid)
-        sendMessageWTyping({ text: 'Hello there!' }, m.messages[0].key.remoteJid!)
+        sendMessageWTyping({ text: 'Hello there!' }, m.messages[0].key.remoteJid)
     })
 }
 // run in main file
