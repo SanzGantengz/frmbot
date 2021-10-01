@@ -12,10 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/FRM-Developer/frmbot.git"
   },
-  "keywords": [
-    "express-uploader"
-  ],
-  "author": "aqulzz",
+  "author": "frmdev",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/FRM-Developer/frmbot/issues"
