@@ -1,4 +1,4 @@
-import makeWASocket from '@adiwajshing/baileys-md'
+const makeWASocket = require('@adiwajshing/baileys-md')
 
 async function connectToWhatsApp () {
     const conn = makeWASocket({
@@ -7,14 +7,7 @@ async function connectToWhatsApp () {
     })
     sock.ev.on('connection.update', (update) => {
         const { connection, lastDisconnect } = update
-        if(connection === 'close') {
-            const shouldReconnect = (lastDisconnect.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
-            console.log('connection closed due to ', lastDisconnect.error, ', reconnecting ', shouldReconnect)
-            // reconnect if not logged out
-            if(shouldReconnect) {
-                sock = startSock()
-            }
-        } else if(connection === 'open') {
+        if(connection === 'open') {
             console.log('opened connection')
         }
     })
