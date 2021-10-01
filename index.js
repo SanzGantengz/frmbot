@@ -12,10 +12,9 @@ async function connectToWhatsApp () {
         }
     })
     sock.ev.on('messages.upsert', m => {
-        console.log(JSON.stringify(m, undefined, 2))
-
+        console.log(JSON.stringify(m, null, 2))
         console.log('replying to', m.messages[0].key.remoteJid)
-        sendMessageWTyping({ text: 'Hello there!' }, m.messages[0].key.remoteJid!)
+        sock.sendMessage(m.messages[0].key.remoteJid, msg, { text: 'Hello there!' })
     })
 }
 // run in main file
