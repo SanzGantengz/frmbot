@@ -21,6 +21,7 @@
   "homepage": "https://github.com/FRM-Developer/frmbot#readme",
   "dependencies": {
     "@adiwajshing/baileys-md": "github:adiwajshing/baileys#multi-device",
+    "@types/pino": "latest",
     "async": "latest",
     "axios": "^0.21.4",
     "cheerio": "^1.0.0-rc.10",
