@@ -2,10 +2,13 @@
   "name": "frmbot",
   "version": "1.0.0",
   "description": "",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "ts-node ./index.ts",
+    "start": "ts-node ./index.ts",
+    "build": "npm i -g ts-node && npm i"
   },
+  "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FRM-Developer/frmbot.git"
@@ -28,6 +31,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
     "path": "^0.12.7",
-    "ssl-express-www": "latest"
+    "ssl-express-www": "latest",
+    "typescript": "^4.4.3"
   }
 }
