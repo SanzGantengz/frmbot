@@ -1,4 +1,4 @@
-const makeWASocket = require('@adiwajshing/baileys-md')
+import makeWASocket, { BufferJSON } from '@adiwajshing/baileys-md'
 
 async function connectToWhatsApp () {
     const conn = makeWASocket({
