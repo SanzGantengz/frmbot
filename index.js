@@ -23,6 +23,7 @@ makeConnection()
 
 app.get('/', (req, res) => {
 	res.json({result:'heleh heleh heleh'})
+	console.log('GET /')
 })
 
 module.exports.Client = conn
