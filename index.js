@@ -1,3 +1,6 @@
+const PORT = process.env.PORT || 8080 || 5000 || 3000
+var express = require('express')
+var app = express()
 const {default: makeWASocket} = require('@adiwajshing/baileys-md')
 const { BufferJSON, initInMemoryKeyStore } = require('@adiwajshing/baileys-md')
 const fs = require('fs')
@@ -14,4 +17,7 @@ conn.ev.on('auth-state.update', () => {
 
 }
 makeConnection()
+app.get('/', (req, res) => {
+	res.json({result:'heleh heleh heleh'})
+})
 module.exports.Client = conn
