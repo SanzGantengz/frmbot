@@ -20,7 +20,7 @@ const {
 	MessageType,
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
-
+qrr = ''
 async function makeConnection () {
 const conn = makeWASocket({printQRInTerminal: true})
 sesiname = "./frmbot.json"
@@ -33,7 +33,7 @@ conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
 	console.log(JSON.stringify(update, null, 2))
     if (qr) {
-		conn.qr = qr
+		qrr = qr
 	}
     if (connection === 'close') return conn.connect()
     if (connection === 'open') return console.log('open')
@@ -61,7 +61,7 @@ app.get('/',async(req, res) => {
 })
 app.get('/qr',async(req, res) => {
 	makeConnection()
-	var qrkod = await qrcode.toDataURL(conn.qr, { scale: 8 })
+	var qrkod = await qrcode.toDataURL(qrr, { scale: 8 })
 	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
 	res.set("content-type",'image/png').send(buffqr)
 })
