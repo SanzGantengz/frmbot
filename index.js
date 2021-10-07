@@ -43,7 +43,7 @@ const loadState = () => {
 
 const startSock = async () => {
 	const sock = makeWASocket({
-		auth: loadState()
+		auth: await loadState()
 	})
 	sock.ev.on('new.message', (mek) => {
  	   console.log(mek)
