@@ -29,9 +29,9 @@ sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-    const conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
+    const conn = await makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
   } else {
-	const conn = makeWASocket({printQRInTerminal: true})
+	const conn = await makeWASocket({printQRInTerminal: true})
   }
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
@@ -64,6 +64,7 @@ app.get('/',async(req, res) => {
 	console.log('GET /')
 })
 app.get('/qr',async(req, res) => {
+	console.log('GET /qr')
 	await makeConnection()
 	await sleep(1000)
 	var qrkod = await qrcode.toDataURL(qrr, { scale: 8 })
