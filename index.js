@@ -44,7 +44,7 @@ const loadState = () => {
 
 const startSock = () => {
 	const sock = makeWASocket({
-		logger: logger({ level: 'trace' }),
+		logger: logger.P({ level: 'trace' }),
 		auth: loadState()
 	})
 	sock.ev.on('new.message', (mek) => {
