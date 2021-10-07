@@ -5,8 +5,16 @@ app.listen(PORT, () => {
 	console.log(`Server berjalan dengan port: ${PORT}`)
 })
 const qrcode = require("qrcode")
-const {default: makeWASocket} = require('@adiwajshing/baileys-md')
-const { BufferJSON, initInMemoryKeyStore } = require('@adiwajshing/baileys-md')
+const {default: makeWASocket, default:create} = require('@adiwajshing/baileys-md')
+const { 
+	BufferJSON, 
+	initInMemoryKeyStore, 
+	WAMessage, 
+	Contact, 
+	SocketConfig, 
+	DisconnectReason, 
+	BaileysEventMap 
+} = require('@adiwajshing/baileys-md')
 const fs = require('fs')
 const conn = makeWASocket({printQRInTerminal: true})
 async function makeConnection () {
