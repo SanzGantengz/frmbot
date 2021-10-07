@@ -31,6 +31,7 @@ sesiname = "./frmbot.json"
   }
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
+	console.log(JSON.stringify(update, null, 2)
     if (qr) {
 		conn.qr = qr
 		console.log(qr)
