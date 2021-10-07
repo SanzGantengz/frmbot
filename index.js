@@ -41,9 +41,9 @@ const loadState = () => {
         return state
     }
 
-const startSock = async () => {
+const startSock = () => {
 	const sock = makeWASocket({
-		auth: await loadState()
+		auth: loadState()
 	})
 	sock.ev.on('new.message', (mek) => {
  	   console.log(mek)
@@ -53,7 +53,7 @@ const startSock = async () => {
 	})
 	return sock
 }
-conn = await startSock()
+conn = startSock()
 
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
