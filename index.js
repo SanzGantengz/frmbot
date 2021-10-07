@@ -48,36 +48,35 @@ const startSock = () => {
 		logger: logger.child({ level: 'trace' }),
 		auth: loadState()
 	})
-	sock.ev.on('new.message', (mek) => {
- 	   console.log(mek)
+	sock.ev.on('connection.update', async(update) => {
+		const { connection, lastDisconnect, qr } = update
+		console.log(JSON.stringify(update, null, 2))
+	    if (qr) {
+			qrr = qr
+			//qrcode.toString(qr,{type:'terminal'}, function (err, url) {console.log(url)})
+			qrcodeterminal.generate(qr, {small: true})
+		}
+		if (connection === 'close') {
+	        sock = startSock()
+	    }
+	    if (connection === 'open') return console.log('open')
 	})
-	sock.ev.on('messages.upsert', (messages) => {
-	    console.log('got messages', messages)
+	sock.ev.on('auth-state.update', async () => {
+	    console.log (`credentials updated!`)
+ 	   authInfo = conn.authState
+	    var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
+	    await fs.writeFileSync("./frmbot.json", datasesi)
 	})
 	return sock
 }
-conn = startSock()
+var conn = startSock()
 
-conn.ev.on('connection.update', async(update) => {
-	const { connection, lastDisconnect, qr } = update
-	console.log(JSON.stringify(update, null, 2))
-    if (qr) {
-		qrr = qr
-		//qrcode.toString(qr,{type:'terminal'}, function (err, url) {console.log(url)})
-		qrcodeterminal.generate(qr, {small: true})
-	}
-	if (connection === 'close') {
-        sock = startSock()
-    }
-    if (connection === 'open') return console.log('open')
+conn.ev.on('new.message', (mek) => {
+	console.log(mek)
 })
-conn.ev.on('auth-state.update', async () => {
-    console.log (`credentials updated!`)
-    authInfo = conn.authState
-    var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
-    await fs.writeFileSync("./frmbot.json", datasesi)
+conn.ev.on('messages.upsert', (messages) => {
+	console.log('got messages', messages)
 })
-
 
 app.get('/',async(req, res) => {
 	res.json({result:'heleh heleh heleh'})
