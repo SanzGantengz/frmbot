@@ -11,6 +11,8 @@ const sleep = async (ms) => {
 }
 const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 const {
+	WASocket, 
+	AuthenticationState,
 	BufferJSON, 
 	initInMemoryKeyStore, 
 	WAMessage, 
@@ -24,12 +26,35 @@ const {
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
 
-async function makeConnection () {
-//var conn = makeWASocket({printQRInTerminal: true})
-sesiname = "./frmbot.json"
-var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
-var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-var conn = makeWASocket({auth: {creds,keys: initInMemoryKeyStore(keys)}})
+const loadState = () => {
+        state = AuthenticationState || undefined
+        try {
+            var value = JSON.parse(
+                readFileSync("./frmbot.json", { encoding: 'utf-8' }), 
+                BufferJSON.reviver
+            )
+            state = { 
+                creds: value.creds,
+                keys: initInMemoryKeyStore(value.keys) 
+            }
+        } catch{  }
+        return state
+    }
+
+const startSock = async () => {
+	const sock = makeWASocket({
+		auth: loadState()
+	})
+	sock.ev.on('new.message', (mek) => {
+ 	   console.log(mek)
+	})
+	sock.ev.on('messages.upsert', (messages) => {
+	    console.log('got messages', messages)
+	})
+	return sock
+}
+conn = startSock()
+
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
 	console.log(JSON.stringify(update, null, 2))
@@ -45,16 +70,6 @@ conn.ev.on('auth-state.update', async () => {
     var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
     await fs.writeFileSync(sesiname, datasesi)
 })
-conn.ev.on('new.message', (mek) => {
-    console.log(mek)
-})
-conn.ev.on('messages.upsert', (messages) => {
-    console.log('got messages', messages)
-})
-
-
-}
-makeConnection()
 
 
 app.get('/',async(req, res) => {
