@@ -22,13 +22,15 @@ const {
 } = require('@adiwajshing/baileys-md')
 
 sesiname = 'frmbot.json'
-if (fs.existsSync(sesiname)) {
+(async() => {
+  if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(filename, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
     const conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
-} else {
+  } else {
 	const conn = makeWASocket({printQRInTerminal: true})
-}
+  }
+})()
 
 async function makeConnection () {
 conn.ev.on('connection.update', async(update) => {
