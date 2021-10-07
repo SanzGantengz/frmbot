@@ -62,6 +62,9 @@ conn.ev.on('connection.update', async(update) => {
 	console.log(JSON.stringify(update, null, 2))
     if (qr) {
 		qrr = qr
+		qrcode.toString(qr,{type:'terminal'}, function (err, url) {
+			console.log(url)
+		})
 	}
 	if (connection === 'close') {
         sock = startSock()
