@@ -23,7 +23,7 @@ const fs = require('fs')
 const conn = makeWASocket({printQRInTerminal: true})
 async function makeConnection () {
 sesiname = 'frmbot.json'
-if (existsSync(sesiname)) {
+if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(filename, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
     conn.loadAuth({creds,keys: initInMemoryKeyStore(keys)})
