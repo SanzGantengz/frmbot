@@ -13,26 +13,51 @@ const {
 	Contact, 
 	SocketConfig, 
 	DisconnectReason, 
-	BaileysEventMap 
+	BaileysEventMap,
+	GroupMetadata,
+	AnyMessageContent,
+	MessageType,
+	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
 const fs = require('fs')
 const conn = makeWASocket({printQRInTerminal: true})
 async function makeConnection () {
+sesiname = 'frmbot.json'
+if (existsSync(sesiname)) {
+	var raw = await fs.readFileSync(filename, { encoding: 'utf8' })
+    var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
+    conn.loadAuth({creds,keys: initInMemoryKeyStore(keys)})
+}
+conn.ev.on('connection.update', (update) => {
+	const { connection, lastDisconnect, qr } = update
+    if (qr) {
+		conn.qr = qr
+		console.log(qr)
+	}
+    if (connection === 'close' &&
+        (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut)
+    return this.connect()
+    if (connection === 'open') return console.log('open')
+})
 conn.ev.on('auth-state.update', () => {
     console.log (`credentials updated!`)
     authInfo = conn.authState
-    fs.writeFileSync(
-        'Ameno.json', 
-        JSON.stringify(authInfo, BufferJSON.replacer, 2)
-    ) 
+    var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
+    await fs.writeFileSync(sesiname, datasesi)
+})
+conn.on('new.message', (mek) => {
+    console.log(mek)
 })
 
+
+
 }
-makeConnection()
+
 
 app.get('/', (req, res) => {
 	res.json({result:'heleh heleh heleh'})
 	console.log('GET /')
 })
+makeConnection()
 
-module.exports.Client = conn
+module.exports.conn = conn
