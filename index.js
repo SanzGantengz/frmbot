@@ -6,6 +6,7 @@ app.listen(PORT, () => {
 })
 const fs = require('fs')
 const qrcode = require("qrcode")
+const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 const {
 	BufferJSON, 
 	initInMemoryKeyStore, 
@@ -19,35 +20,34 @@ const {
 	MessageType,
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
-const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 
 async function makeConnection () {
-const conn = await makeWASocket({printQRInTerminal: true})
+const conn = makeWASocket({printQRInTerminal: true})
 sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
     makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
   }
-conn.ev.on('connection.update', async(update) => {
+sock.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
 	console.log(JSON.stringify(update, null, 2))
     if (qr) {
 		conn.qr = qr
 	}
-    if (connection === 'close') return conn.connect()
+    if (connection === 'close') return sock.connect()
     if (connection === 'open') return console.log('open')
 })
-conn.ev.on('auth-state.update', async () => {
+sock.ev.on('auth-state.update', async () => {
     console.log (`credentials updated!`)
-    authInfo = conn.authState
+    authInfo = sock.authState
     var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
     await fs.writeFileSync(sesiname, datasesi)
 })
-conn.ev.on('new.message', (mek) => {
+sock.ev.on('new.message', (mek) => {
     console.log(mek)
 })
-conn.ev.on('messages.upsert', (messages) => {
+sock.ev.on('messages.upsert', (messages) => {
     console.log('got messages', messages)
 })
 
