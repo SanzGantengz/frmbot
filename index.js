@@ -93,4 +93,4 @@ app.get('/qr',async(req, res) => {
 app.get('/sesi',async(req, res) => {
 	res.json(authInfo)
 	console.log('GET /sesi')
-})
+}) 
