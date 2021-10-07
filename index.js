@@ -20,15 +20,14 @@ const {
 	MessageType,
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
+conn = makeWASocket({printQRInTerminal: true})
 
 (async() => {
   sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-    const conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
-  } else {
-	const conn = makeWASocket({printQRInTerminal: true})
+    conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
   }
 })()
 
