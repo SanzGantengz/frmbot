@@ -58,13 +58,14 @@ const startSock = () => {
 		}
 		if (connection === 'close') {
 	        var sock = startSock()
+			return console.log('CLOSE')
 	    }
 	    if (connection === 'open') return console.log('open')
 	})
 	sock.ev.on('auth-state.update', async () => {
 	    console.log (`credentials updated!`)
  	   authInfo = conn.authState
-	    var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
+	    datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
 	    await fs.writeFileSync("./frmbot.json", datasesi)
 	})
 	return sock
@@ -90,5 +91,9 @@ app.get('/qr',async(req, res) => {
 })
 app.get('/sesi',async(req, res) => {
 	res.json(authInfo)
+	console.log('GET /sesi')
+}) 
+app.get('/datasesi',async(req, res) => {
+	res.json(datasesi)
 	console.log('GET /sesi')
 }) 
