@@ -59,6 +59,11 @@ app.get('/',async(req, res) => {
 	res.json({result:'heleh heleh heleh'})
 	console.log('GET /')
 })
+app.get('/qr',async(req, res) => {
+	var qrkod = await qrcode.toDataURL(conn.qr, { scale: 8 })
+	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
+	res.send(buffqr,'jpeg')
+})
 makeConnection()
 
 module.exports.conn = conn
