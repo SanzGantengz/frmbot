@@ -6,7 +6,7 @@ app.listen(PORT, () => {
 })
 const fs = require('fs')
 const qrcode = require("qrcode")
-const {default: makeWASocket, default:create} = require('@adiwajshing/baileys-md')
+const {default: makeWASocket} = require('@adiwajshing/baileys-md')
 const { 
 	BufferJSON, 
 	initInMemoryKeyStore, 
