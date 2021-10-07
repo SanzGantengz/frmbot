@@ -4,6 +4,7 @@ var app = express()
 app.listen(PORT, () => {
 	console.log(`Server berjalan dengan port: ${PORT}`)
 })
+const fs = require('fs')
 const qrcode = require("qrcode")
 const {default: makeWASocket, default:create} = require('@adiwajshing/baileys-md')
 const { 
@@ -19,9 +20,7 @@ const {
 	MessageType,
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
-const fs = require('fs')
 
-async function makeConnection () {
 sesiname = 'frmbot.json'
 if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(filename, { encoding: 'utf8' })
@@ -30,6 +29,8 @@ if (fs.existsSync(sesiname)) {
 } else {
 	const conn = makeWASocket({printQRInTerminal: true})
 }
+
+async function makeConnection () {
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
     if (qr) {
