@@ -29,25 +29,25 @@ sesiname = "./frmbot.json"
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
     makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
   }
-sock.ev.on('connection.update', async(update) => {
+conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
 	console.log(JSON.stringify(update, null, 2))
     if (qr) {
 		conn.qr = qr
 	}
-    if (connection === 'close') return sock.connect()
+    if (connection === 'close') return conn.connect()
     if (connection === 'open') return console.log('open')
 })
-sock.ev.on('auth-state.update', async () => {
+conn.ev.on('auth-state.update', async () => {
     console.log (`credentials updated!`)
-    authInfo = sock.authState
+    authInfo = conn.authState
     var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
     await fs.writeFileSync(sesiname, datasesi)
 })
-sock.ev.on('new.message', (mek) => {
+conn.ev.on('new.message', (mek) => {
     console.log(mek)
 })
-sock.ev.on('messages.upsert', (messages) => {
+conn.ev.on('messages.upsert', (messages) => {
     console.log('got messages', messages)
 })
 
@@ -65,5 +65,3 @@ app.get('/qr',async(req, res) => {
 	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
 	res.set("content-type",'image/png').send(buffqr)
 })
-
-module.exports.conn = conn
