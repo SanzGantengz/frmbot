@@ -22,7 +22,7 @@ const {
 const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 
 async function makeConnection () {
-const conn = makeWASocket({printQRInTerminal: true})
+const conn = await makeWASocket({printQRInTerminal: true})
 sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
