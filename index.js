@@ -51,7 +51,7 @@ conn.ev.on('messages.upsert', (messages) => {
     console.log('got messages', messages)
 })
 
-
+return conn
 }
 
 
@@ -60,7 +60,7 @@ app.get('/',async(req, res) => {
 	console.log('GET /')
 })
 app.get('/qr',async(req, res) => {
-	makeConnection()
+	await makeConnection()
 	var qrkod = await qrcode.toDataURL(qrr, { scale: 8 })
 	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
 	res.set("content-type",'image/png').send(buffqr)
