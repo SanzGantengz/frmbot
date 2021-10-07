@@ -6,7 +6,6 @@ app.listen(PORT, () => {
 })
 const fs = require('fs')
 const qrcode = require("qrcode")
-const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 const {
 	BufferJSON, 
 	initInMemoryKeyStore, 
@@ -20,9 +19,10 @@ const {
 	MessageType,
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
-conn = makeWASocket({printQRInTerminal: true})
+const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 
 async function makeConnection () {
+const conn = makeWASocket({printQRInTerminal: true})
 sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
@@ -34,7 +34,6 @@ conn.ev.on('connection.update', async(update) => {
 	console.log(JSON.stringify(update, null, 2))
     if (qr) {
 		conn.qr = qr
-		console.log(qr)
 	}
     if (connection === 'close') return conn.connect()
     if (connection === 'open') return console.log('open')
@@ -61,10 +60,10 @@ app.get('/',async(req, res) => {
 	console.log('GET /')
 })
 app.get('/qr',async(req, res) => {
+	makeConnection()
 	var qrkod = await qrcode.toDataURL(conn.qr, { scale: 8 })
 	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
 	res.set("content-type",'image/png').send(buffqr)
 })
-makeConnection()
 
 module.exports.conn = conn
