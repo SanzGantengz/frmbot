@@ -6,6 +6,7 @@ app.listen(PORT, () => {
 })
 const fs = require('fs')
 const qrcode = require("qrcode")
+const qrcodeterminal = require('qrcode-terminal')
 const sleep = async (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -62,9 +63,8 @@ conn.ev.on('connection.update', async(update) => {
 	console.log(JSON.stringify(update, null, 2))
     if (qr) {
 		qrr = qr
-		qrcode.toString(qr,{type:'terminal'}, function (err, url) {
-			console.log(url)
-		})
+		//qrcode.toString(qr,{type:'terminal'}, function (err, url) {console.log(url)})
+		qrcodeterminal.generate(qr, {small: true})
 	}
 	if (connection === 'close') {
         sock = startSock()
