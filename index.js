@@ -20,13 +20,15 @@ const {
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
 const fs = require('fs')
-const conn = makeWASocket({printQRInTerminal: true})
+
 async function makeConnection () {
 sesiname = 'frmbot.json'
 if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(filename, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-    conn.loadAuth({creds,keys: initInMemoryKeyStore(keys)})
+    const conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
+} else {
+	const conn = makeWASocket({printQRInTerminal: true})
 }
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
@@ -43,10 +45,12 @@ conn.ev.on('auth-state.update', async () => {
     var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
     await fs.writeFileSync(sesiname, datasesi)
 })
-conn.on('new.message', (mek) => {
+conn.ev.on('new.message', (mek) => {
     console.log(mek)
 })
-
+conn.ev.on('messages.upsert', (messages) => {
+    console.log('got messages', messages)
+})
 
 
 }
