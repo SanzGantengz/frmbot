@@ -6,7 +6,7 @@ app.listen(PORT, () => {
 })
 const fs = require('fs')
 const qrcode = require("qrcode")
-const { default: makeWASocket } = require('@adiwajshing/baileys-md')
+const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 const {
 	BufferJSON, 
 	initInMemoryKeyStore, 
@@ -22,16 +22,13 @@ const {
 } = require('@adiwajshing/baileys-md')
 conn = makeWASocket({printQRInTerminal: true})
 
-(async() => {
-  sesiname = "./frmbot.json"
+async function makeConnection () {
+sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-    conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
+    makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
   }
-})()
-
-async function makeConnection () {
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
     if (qr) {
