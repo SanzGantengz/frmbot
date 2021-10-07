@@ -40,6 +40,7 @@ const loadState = () => {
                 keys: initInMemoryKeyStore(value.keys) 
             }
         } catch{  }
+        console.log(state)
         return state
     }
 
