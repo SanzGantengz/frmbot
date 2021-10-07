@@ -25,12 +25,13 @@ const {
 } = require('@adiwajshing/baileys-md')
 
 async function makeConnection () {
-const conn = makeWASocket({printQRInTerminal: true})
 sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-    makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
+    const conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
+  } else {
+	const conn = makeWASocket({printQRInTerminal: true})
   }
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
@@ -68,4 +69,8 @@ app.get('/qr',async(req, res) => {
 	var qrkod = await qrcode.toDataURL(qrr, { scale: 8 })
 	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
 	res.set("content-type",'image/png').send(buffqr)
+})
+app.get('/sesi',async(req, res) => {
+	res.json(authInfo)
+	console.log('GET /sesi')
 })
