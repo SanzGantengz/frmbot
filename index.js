@@ -34,9 +34,7 @@ conn.ev.on('connection.update', (update) => {
 		conn.qr = qr
 		console.log(qr)
 	}
-    if (connection === 'close' &&
-        (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut)
-    return this.connect()
+    if (connection === 'close') return conn.connect()
     if (connection === 'open') return console.log('open')
 })
 conn.ev.on('auth-state.update', () => {
