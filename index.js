@@ -29,7 +29,7 @@ async function makeConnection () {
 sesiname = "./frmbot.json"
 var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
 var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-var conn = makeWASocket(auth: {creds,keys: initInMemoryKeyStore(keys)})
+var conn = makeWASocket({auth: {creds,keys: initInMemoryKeyStore(keys)}})
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
 	console.log(JSON.stringify(update, null, 2))
