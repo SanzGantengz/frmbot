@@ -21,8 +21,8 @@ const {
 	MiscMessageGenerationOptions
 } = require('@adiwajshing/baileys-md')
 
-sesiname = "./frmbot.json"
 (async() => {
+  sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
