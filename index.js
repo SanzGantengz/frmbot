@@ -25,13 +25,12 @@ const {
 } = require('@adiwajshing/baileys-md')
 
 async function makeConnection () {
+var conn = makeWASocket({printQRInTerminal: true})
 sesiname = "./frmbot.json"
   if (fs.existsSync(sesiname)) {
 	var raw = await fs.readFileSync(sesiname, { encoding: 'utf8' })
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
-    const conn = await makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
-  } else {
-	const conn = await makeWASocket({printQRInTerminal: true})
+    var conn = makeWASocket({creds,keys: initInMemoryKeyStore(keys)})
   }
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
