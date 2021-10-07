@@ -85,7 +85,6 @@ app.get('/',async(req, res) => {
 })
 app.get('/qr',async(req, res) => {
 	console.log('GET /qr')
-	conn = await startSock()
 	var qrkod = await qrcode.toDataURL(qrr, { scale: 8 })
 	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
 	res.set("content-type",'image/png').send(buffqr)
