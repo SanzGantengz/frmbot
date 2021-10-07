@@ -9,6 +9,7 @@ const qrcode = require("qrcode")
 const sleep = async (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+const logger = require('pino')()
 const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
 const {
 	WASocket, 
@@ -43,6 +44,7 @@ const loadState = () => {
 
 const startSock = () => {
 	const sock = makeWASocket({
+		logger: logger({ level: 'trace' }),
 		auth: loadState()
 	})
 	sock.ev.on('new.message', (mek) => {
