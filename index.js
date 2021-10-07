@@ -61,7 +61,9 @@ conn.ev.on('connection.update', async(update) => {
     if (qr) {
 		qrr = qr
 	}
-    if (connection === 'close') return conn.connect()
+	if (connection === 'close') {
+        sock = startSock()
+    }
     if (connection === 'open') return console.log('open')
 })
 conn.ev.on('auth-state.update', async () => {
