@@ -12,6 +12,7 @@
   "dependencies": {
     "@adiwajshing/baileys": "github:adiwajshing/baileys",
     "@adiwajshing/baileys-md": "github:adiwajshing/baileys#multi-device",
-    "express": "latest"
+    "express": "latest",
+    "qrcode": "latest"
   }
 }
