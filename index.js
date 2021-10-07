@@ -53,7 +53,7 @@ const startSock = async () => {
 	})
 	return sock
 }
-conn = startSock()
+conn = await startSock()
 
 conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
