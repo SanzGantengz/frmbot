@@ -28,7 +28,7 @@ if (existsSync(sesiname)) {
     var { creds, keys } = JSON.parse(raw, BufferJSON.reviver)
     conn.loadAuth({creds,keys: initInMemoryKeyStore(keys)})
 }
-conn.ev.on('connection.update', (update) => {
+conn.ev.on('connection.update', async(update) => {
 	const { connection, lastDisconnect, qr } = update
     if (qr) {
 		conn.qr = qr
@@ -37,7 +37,7 @@ conn.ev.on('connection.update', (update) => {
     if (connection === 'close') return conn.connect()
     if (connection === 'open') return console.log('open')
 })
-conn.ev.on('auth-state.update', () => {
+conn.ev.on('auth-state.update', async () => {
     console.log (`credentials updated!`)
     authInfo = conn.authState
     var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
@@ -52,7 +52,7 @@ conn.on('new.message', (mek) => {
 }
 
 
-app.get('/', (req, res) => {
+app.get('/',async(req, res) => {
 	res.json({result:'heleh heleh heleh'})
 	console.log('GET /')
 })
