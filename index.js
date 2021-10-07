@@ -54,6 +54,7 @@ conn.ev.on('messages.upsert', (messages) => {
 
 
 }
+makeConnection()
 
 
 app.get('/',async(req, res) => {
