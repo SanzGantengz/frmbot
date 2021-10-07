@@ -44,7 +44,7 @@ const loadState = () => {
     }
 
 const startSock = () => {
-	const sock = makeWASocket({
+	var sock = makeWASocket({
 		logger: logger.child({ level: 'trace' }),
 		auth: loadState()
 	})
@@ -57,7 +57,7 @@ const startSock = () => {
 			qrcodeterminal.generate(qr, {small: true})
 		}
 		if (connection === 'close') {
-	        sock = startSock()
+	        var sock = startSock()
 	    }
 	    if (connection === 'open') return console.log('open')
 	})
