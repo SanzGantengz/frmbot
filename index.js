@@ -75,7 +75,7 @@ conn.ev.on('auth-state.update', async () => {
     console.log (`credentials updated!`)
     authInfo = conn.authState
     var datasesi = JSON.stringify(authInfo, BufferJSON.replacer)
-    await fs.writeFileSync(sesiname, datasesi)
+    await fs.writeFileSync("./frmbot.json", datasesi)
 })
 
 
@@ -85,8 +85,7 @@ app.get('/',async(req, res) => {
 })
 app.get('/qr',async(req, res) => {
 	console.log('GET /qr')
-	await makeConnection()
-	await sleep(1000)
+	conn = await startSock()
 	var qrkod = await qrcode.toDataURL(qrr, { scale: 8 })
 	var buffqr = await Buffer.from(qrkod.split('data:image/png;base64,')[1], 'base64')
 	res.set("content-type",'image/png').send(buffqr)
