@@ -11,7 +11,7 @@ const sleep = async (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 const logger = require('pino')()
-const { default: makeWASocket, default:create } = require('@adiwajshing/baileys-md')
+const { makeWASocket, create } = require('@adiwajshing/baileys-md')
 const {
 	WASocket, 
 	AuthenticationState,
